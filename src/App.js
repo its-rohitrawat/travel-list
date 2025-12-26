@@ -26,7 +26,7 @@ export default function App(){
             <Logo />
             <Form onAddItems = {handleAddItems}/>
             <PackingList  items ={items} onDelItem = {handleDelItem} onToggleItem = {handleToggleItem}/>
-            <Stats />
+            <Stats items={items} />
         </div>
             
         )
@@ -78,7 +78,7 @@ function PackingList({items, onDelItem , onToggleItem} ){
             key={item.id}
             item={item}
             onDelItem={onDelItem}
-            onToggleItem={onToggleItem}   // ✅ PASS IT
+            onToggleItem={onToggleItem}  
           />
         ))}
       </ul>
@@ -98,10 +98,22 @@ function Item({ item , onDelItem, onToggleItem}){
         </li>
 }
 
-function Stats(){
+function Stats({items}){
+    if(!items.length)
+        return (<p className="stats"> 
+        <em>Start adding items to your packing list 😇.</em>
+        </p>)
+
+    const numItems = items.length
+    const packeditems = items.filter((item) => item.packed).length
+    const percentage = Math.round((packeditems / numItems * 100))
+
     return <footer className="stats">
         <em>
-            You have X number of items in your list, and you already packed X (X%)
+            {percentage === 100 ? "you are ready to go for your trip ✈️" : 
+            ` You have ${numItems} number of items in your list, and you already packed ${packeditems} (${percentage}%)`
+            }
+           
         </em>
     </footer>
 }
