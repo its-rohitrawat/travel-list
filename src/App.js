@@ -22,10 +22,15 @@ export default function App(){
     function handleToggleItem(id){
         setitems((items) => items.map((item) => item.id === id ? {...item, packed: !item.packed} : item))
     }
+
+    
+    function clearList(){
+        setitems([]);
+    }
         return( <div className="app">
             <Logo />
             <Form onAddItems = {handleAddItems}/>
-            <PackingList  items ={items} onDelItem = {handleDelItem} onToggleItem = {handleToggleItem}/>
+            <PackingList  items ={items} onDelItem = {handleDelItem} onToggleItem = {handleToggleItem} clearlist={clearList}/>
             <Stats items={items} />
         </div>
             
@@ -69,7 +74,7 @@ function Form({onAddItems}){
     </form>
 }
 
-function PackingList({items, onDelItem , onToggleItem} ){
+function PackingList({items, onDelItem , onToggleItem, clearlist} ){
 
     const [sortby, setsortby] = useState("input")
 
@@ -100,7 +105,7 @@ function PackingList({items, onDelItem , onToggleItem} ){
                 <option value='description'>Sort by description</option>
                 <option value='packed'>Sort by packed status</option>
             </select>
-            <button>Clear List</button>
+            <button onClick={clearlist}>Clear List</button>
       </div>
 
 
